@@ -18,11 +18,11 @@ public class SAP {
 	BreadthFirstDirectedPaths pw = new BreadthFirstDirectedPaths(graph, w);
 	int dw = -1, dv = -1;
 	int aw = -1, av = -1;
-	for (int i : ancestors(graph, v))
+	for (int i : ancestors(v))
 	    if (pw.hasPathTo(i)) {
 		dv = pv.distTo(i) + pw.distTo(i);
 		av = i;}
-	for (int i : ancestors(graph, w))
+	for (int i : ancestors(w))
 	    if (pv.hasPathTo(i)) {
 		dw = pv.distTo(i) + pw.distTo(i);
 		aw = i;}
@@ -59,19 +59,19 @@ public class SAP {
     public int ancestor (int v, int w) {
 	return ancestor(Arrays.asList(v), Arrays.asList(w));}
 
-    Iterable<Integer> ancestors (final Digraph g, final int s) {
+    public Iterable<Integer> ancestors (final int s) {
 	return new Iterable<Integer> () {
 	    @Override
 	    public Iterator<Integer> iterator () {
-		boolean[] marked = new boolean[g.V()];
-		final int[] edgeTo = new int[g.V()];
+		boolean[] marked = new boolean[graph.V()];
+		final int[] edgeTo = new int[graph.V()];
 		edu.princeton.cs.algs4.Queue<Integer> q =
 		    new edu.princeton.cs.algs4.Queue<>();
 		q.enqueue(s);
 		marked[s] = true;
 		return new Iterator<Integer> () {
 		    int v = s;
-		    Iterator<Integer> a = g.adj(v).iterator();
+		    Iterator<Integer> a = graph.adj(v).iterator();
 		    @Override
 		    public boolean hasNext () {
 			if (!q.isEmpty()) return true;
@@ -89,7 +89,7 @@ public class SAP {
 				return v;}}
 			if (!q.isEmpty()) {
 			    v = q.dequeue();
-			    a = g.adj(v).iterator();
+			    a = graph.adj(v).iterator();
 			    return next();}
 			throw new IllegalStateException();}};}};}}
 
