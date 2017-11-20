@@ -5,6 +5,7 @@ import java.util.*;
 
 public class WordNet {
     Map<Integer, String> id2synset = new HashMap<>();
+<<<<<<< HEAD
     Map<Integer, List<String>> id2nouns = new HashMap<>();
     Map<String, Integer> synset2id = new HashMap<>();
     Map<String, Integer> noun2id = new HashMap<>();
@@ -15,10 +16,37 @@ public class WordNet {
     public static void main (String[] args) {
 	new WordNet(args[0], args[1]);
     }
+=======
+    Map<Integer, List<String>> sns = new HashMap<>();
+    Map<Integer, List<String>> id2nouns = new HashMap<>();
+    Map<String, Integer> noun2id = new HashMap<>();
+    Map<String, Integer> synset2id = new HashMap<>();
+    Digraph d;
+    SAP sap;
+
+    public static void main (String[] args) {
+	WordNet w = new WordNet(args[0], args[1]);
+	System.out.println(w);
+	for (String n : w.nouns()) System.out.println(n);
+    }
+
+    public static Map head (Map map, int... n) {
+	int k = n.length>0 ? n[0] : 10;
+	Map head = new HashMap();
+	int i = 0;
+	for (Object key : map.keySet()) {
+	    head.put(key, map.get(key));
+	    i++;
+	    if (i==k) break;}
+	return head;}
+
+    public WordNet () {}
+>>>>>>> 3202ead94b9e74187e5684a47b6e49d6a5082edc
 
     public WordNet (String synsets, String hypernyms) {
 	if (synsets==null) throw new IllegalArgumentException();
 	if (hypernyms==null) throw new IllegalArgumentException();
+<<<<<<< HEAD
 	parseSynsets(synsets);
 	parseNouns(id2synset);
 	parseHypernyms(hypernyms);
@@ -35,6 +63,23 @@ public class WordNet {
 	sb.append("\n");
 	return sb.toString();}
 
+=======
+	parseSynsets(synsets.trim());
+	// generateNouns();
+	parseHypernyms(hypernyms.trim());
+	sap = new SAP(d);}
+
+    @Override
+    public String toString () {
+	StringBuffer sb = new StringBuffer();
+	sb.append(head(id2synset).toString()).append("\n");
+	sb.append(head(synset2id).toString()).append("\n");
+	sb.append(head(id2nouns).toString()).append("\n");
+	sb.append(head(noun2id).toString()).append("\n");
+	sb.append(d.toString()).append("\n");
+	return sb.toString();}
+
+>>>>>>> 3202ead94b9e74187e5684a47b6e49d6a5082edc
     protected void parseSynsets (String filename) {
 	In in = new In(filename);
 	for (String line = in.readLine(); line!=null;) {
@@ -47,10 +92,9 @@ public class WordNet {
 	    sns
 		.get(Integer.parseInt(fields[0]))
 		.addAll(Arrays.asList(fields[1].split(" ")));
-	    line = in.readLine();}
-	return sns;}
+	    line = in.readLine();}}
 
-    protected Digraph parseHypernyms (String filename) {
+    protected void parseHypernyms (String filename) {
 	In in = new In(filename);
 	Digraph d = new Digraph(sns.keySet().size());
 	for (String line = in.readLine(); line!=null;) {
@@ -81,13 +125,16 @@ public class WordNet {
 		d.addEdge(Integer.parseInt(fields[i]),
 <<<<<<< HEAD
 			  Integer.parseInt(fields[0]));
+<<<<<<< HEAD
 	    line = in.readLine();}
 	return d;}
 =======
 			  Integer.parseInt(fields[0]));}}
 >>>>>>> e58cb6a... Building reverse indexes
+=======
+	    line = in.readLine();}}
+>>>>>>> 3202ead94b9e74187e5684a47b6e49d6a5082edc
 
-    // returns all WordNet nouns
     public Iterable<String> nouns () {
 	return new Iterable<String> () {
 	    @Override
@@ -125,7 +172,6 @@ public class WordNet {
 			return source.next();}};}};}
 >>>>>>> 89021b7... Adding a reverse index
 
-    // is the word a WordNet noun?
     public boolean isNoun (String word) {
 	if (word==null) throw new IllegalArgumentException();
 	for (String n : nouns()) if (n.equals(word)) return true;
@@ -138,13 +184,26 @@ public class WordNet {
 	throw new UnsupportedOperationException();
     }
 
+<<<<<<< HEAD
+=======
+    public Integer noun2id (String noun) {
+	return noun2id.get(noun);}
+
+    public Digraph getDigraph () {
+	return d;}
+
+>>>>>>> 3202ead94b9e74187e5684a47b6e49d6a5082edc
     // a synset (second field of synsets.txt) that is the common
     // ancestor of nounA and nounB in a shortest ancestral path
     // (defined below)
     public String sap (String nounA, String nounB) {
 	if (nounA==null) throw new IllegalArgumentException();
 	if (nounB==null) throw new IllegalArgumentException();
+<<<<<<< HEAD
 	// sap.ancestor(noun2id.get(nounA), noun2id.get(nounB))
 	throw new UnsupportedOperationException();
     }
+=======
+	return id2synset.get(sap.ancestor(noun2id.get(nounA), noun2id.get(nounB)));}
+>>>>>>> 3202ead94b9e74187e5684a47b6e49d6a5082edc
 }
