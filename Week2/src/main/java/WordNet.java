@@ -5,18 +5,6 @@ import java.util.*;
 
 public class WordNet {
     Map<Integer, String> id2synset = new HashMap<>();
-<<<<<<< HEAD
-    Map<Integer, List<String>> id2nouns = new HashMap<>();
-    Map<String, Integer> synset2id = new HashMap<>();
-    Map<String, Integer> noun2id = new HashMap<>();
-    Digraph d;
-    SAP sap;
-
-    // do unit testing of this class
-    public static void main (String[] args) {
-	new WordNet(args[0], args[1]);
-    }
-=======
     Map<Integer, List<String>> sns = new HashMap<>();
     Map<Integer, List<String>> id2nouns = new HashMap<>();
     Map<String, Integer> noun2id = new HashMap<>();
@@ -41,29 +29,10 @@ public class WordNet {
 	return head;}
 
     public WordNet () {}
->>>>>>> 3202ead94b9e74187e5684a47b6e49d6a5082edc
 
     public WordNet (String synsets, String hypernyms) {
 	if (synsets==null) throw new IllegalArgumentException();
 	if (hypernyms==null) throw new IllegalArgumentException();
-<<<<<<< HEAD
-	parseSynsets(synsets);
-	parseNouns(id2synset);
-	parseHypernyms(hypernyms);
-	sap = new SAP(d);}
-
-    @Override
-    public String toString () {
-	StringBuffer sb = new StringBuffer();
-	sb.append(id2nouns.toString());
-	sb.append("\n");
-	sb.append(noun2id.toString());
-	sb.append("\n");
-	sb.append(d);
-	sb.append("\n");
-	return sb.toString();}
-
-=======
 	parseSynsets(synsets.trim());
 	// generateNouns();
 	parseHypernyms(hypernyms.trim());
@@ -79,13 +48,10 @@ public class WordNet {
 	sb.append(d.toString()).append("\n");
 	return sb.toString();}
 
->>>>>>> 3202ead94b9e74187e5684a47b6e49d6a5082edc
     protected void parseSynsets (String filename) {
 	In in = new In(filename);
 	for (String line = in.readLine(); line!=null;) {
 	    String[] fields = line.split(",");
-<<<<<<< HEAD
-<<<<<<< HEAD
 	    sns
 		.putIfAbsent(Integer.parseInt(fields[0]),
 			     new ArrayList<>());
@@ -98,14 +64,8 @@ public class WordNet {
 	In in = new In(filename);
 	Digraph d = new Digraph(sns.keySet().size());
 	for (String line = in.readLine(); line!=null;) {
-=======
-	    fidx.putIfAbsent(Integer.parseInt(fields[0]), new ArrayList<>());
-	    fidx.get(fields[0]).addAll(Arrays.asList(fields[1].split(" ")));}
-	return fidx;}
-=======
 	    id2synset.put(Integer.parseInt(fields[0]), fields[1]);
 	    synset2id.put(fields[1], Integer.parseInt(fields[0]));}}
->>>>>>> e58cb6a... Building reverse indexes
 
     protected void parseNouns (Map<Integer, String> synsets) {
 	for (Map.Entry<Integer, String> e : synsets.entrySet()) {
@@ -119,29 +79,16 @@ public class WordNet {
 	String line = in.readLine();
 	d = new Digraph(id2nouns.keySet().size());
 	while (line!=null) {
->>>>>>> 89021b7... Adding a reverse index
-	    String[] fields = line.split(",");
-	    for (int i = 1; i<fields.length; i++)
-		d.addEdge(Integer.parseInt(fields[i]),
-<<<<<<< HEAD
 			  Integer.parseInt(fields[0]));
-<<<<<<< HEAD
 	    line = in.readLine();}
 	return d;}
-=======
 			  Integer.parseInt(fields[0]));}}
->>>>>>> e58cb6a... Building reverse indexes
-=======
-	    line = in.readLine();}}
->>>>>>> 3202ead94b9e74187e5684a47b6e49d6a5082edc
 
     public Iterable<String> nouns () {
 	return new Iterable<String> () {
 	    @Override
 	    public Iterator<String> iterator () {
 		return new Iterator<String> () {
-<<<<<<< HEAD
-<<<<<<< HEAD
 		    Iterator<List<String>> sources = sns.values().iterator();
 		    Iterator<String> source;
 		    @Override
@@ -154,11 +101,7 @@ public class WordNet {
 		    public String next () {
 			if (source.hasNext()) return source.next();
 			throw new NoSuchElementException();}};}};}
-=======
-		    Iterator<List<String>> iterables = fidx.values().iterator();
-=======
 		    Iterator<List<String>> iterables = id2nouns.values().iterator();
->>>>>>> e58cb6a... Building reverse indexes
 		    Iterator<String> source;
 		    @Override
 		    public boolean hasNext () {
@@ -170,7 +113,6 @@ public class WordNet {
 		    public String next () {
 			if (!hasNext()) throw new NoSuchElementException();
 			return source.next();}};}};}
->>>>>>> 89021b7... Adding a reverse index
 
     public boolean isNoun (String word) {
 	if (word==null) throw new IllegalArgumentException();
@@ -184,26 +126,19 @@ public class WordNet {
 	throw new UnsupportedOperationException();
     }
 
-<<<<<<< HEAD
-=======
     public Integer noun2id (String noun) {
 	return noun2id.get(noun);}
 
     public Digraph getDigraph () {
 	return d;}
 
->>>>>>> 3202ead94b9e74187e5684a47b6e49d6a5082edc
     // a synset (second field of synsets.txt) that is the common
     // ancestor of nounA and nounB in a shortest ancestral path
     // (defined below)
     public String sap (String nounA, String nounB) {
 	if (nounA==null) throw new IllegalArgumentException();
 	if (nounB==null) throw new IllegalArgumentException();
-<<<<<<< HEAD
 	// sap.ancestor(noun2id.get(nounA), noun2id.get(nounB))
 	throw new UnsupportedOperationException();
     }
-=======
-	return id2synset.get(sap.ancestor(noun2id.get(nounA), noun2id.get(nounB)));}
->>>>>>> 3202ead94b9e74187e5684a47b6e49d6a5082edc
-}
+

@@ -20,19 +20,11 @@ public class SAP {
 	BreadthFirstDirectedPaths pw = new BreadthFirstDirectedPaths(graph, w);
 	int dw = -1, dv = -1;
 	int aw = -1, av = -1;
-<<<<<<< HEAD
-	for (int i : ancestors(graph, v))
-	    if (pw.hasPathTo(i)) {
-		dv = pv.distTo(i) + pw.distTo(i);
-		av = i;}
-	for (int i : ancestors(graph, w))
-=======
 	for (int i : ancestors(v))
 	    if (pw.hasPathTo(i)) {
 		dv = pv.distTo(i) + pw.distTo(i);
 		av = i;}
 	for (int i : ancestors(w))
->>>>>>> 3202ead94b9e74187e5684a47b6e49d6a5082edc
 	    if (pv.hasPathTo(i)) {
 		dw = pv.distTo(i) + pw.distTo(i);
 		aw = i;}
@@ -63,15 +55,6 @@ public class SAP {
     // such path
     public int length (int v, int w) {
 	return length(Arrays.asList(v), Arrays.asList(w));}
-<<<<<<< HEAD
-
-    // a common ancestor of v and w that participates in a shortest
-    // ancestral path; -1 if no such path
-    public int ancestor (int v, int w) {
-	return ancestor(Arrays.asList(v), Arrays.asList(w));}
-=======
->>>>>>> 3202ead94b9e74187e5684a47b6e49d6a5082edc
-
     // a common ancestor of v and w that participates in a shortest
     // ancestral path; -1 if no such path
     public int ancestor (int v, int w) {
@@ -81,13 +64,8 @@ public class SAP {
 	return new Iterable<Integer> () {
 	    @Override
 	    public Iterator<Integer> iterator () {
-<<<<<<< HEAD
-		boolean[] marked = new boolean[g.V()];
-		final int[] edgeTo = new int[g.V()];
-=======
 		boolean[] marked = new boolean[graph.V()];
 		final int[] edgeTo = new int[graph.V()];
->>>>>>> 3202ead94b9e74187e5684a47b6e49d6a5082edc
 		edu.princeton.cs.algs4.Queue<Integer> q =
 		    new edu.princeton.cs.algs4.Queue<>();
 		q.enqueue(s);
