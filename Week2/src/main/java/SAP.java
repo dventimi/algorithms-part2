@@ -41,19 +41,23 @@ public class SAP {
 		    if (r[1]<shortest[1]) shortest = r;}
 	return shortest;}
 
-    // length of shortest ancestral path between any vertex in v and any vertex in w; -1 if no such path
+    // length of shortest ancestral path between any vertex in v and
+    // any vertex in w; -1 if no such path
     public int length (Iterable<Integer> v, Iterable<Integer> w) {
 	return research(v, w)[1];}
 
-    // a common ancestor that participates in shortest ancestral path; -1 if no such path
+    // a common ancestor that participates in shortest ancestral path;
+    // -1 if no such path
     public int ancestor (Iterable<Integer> v, Iterable<Integer> w) {
 	return research(v, w)[0];}
 
-    // length of shortest ancestral path between v and w; -1 if no such path
+    // length of shortest ancestral path between v and w; -1 if no
+    // such path
     public int length (int v, int w) {
 	return length(Arrays.asList(v), Arrays.asList(w));}
 
-    // a common ancestor of v and w that participates in a shortest ancestral path; -1 if no such path
+    // a common ancestor of v and w that participates in a shortest
+    // ancestral path; -1 if no such path
     public int ancestor (int v, int w) {
 	return ancestor(Arrays.asList(v), Arrays.asList(w));}
 
@@ -63,7 +67,8 @@ public class SAP {
 	    public Iterator<Integer> iterator () {
 		boolean[] marked = new boolean[g.V()];
 		final int[] edgeTo = new int[g.V()];
-		edu.princeton.cs.algs4.Queue<Integer> q = new edu.princeton.cs.algs4.Queue<>();
+		edu.princeton.cs.algs4.Queue<Integer> q =
+		    new edu.princeton.cs.algs4.Queue<>();
 		q.enqueue(s);
 		marked[s] = true;
 		return new Iterator<Integer> () {
