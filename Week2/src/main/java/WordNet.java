@@ -1,3 +1,5 @@
+package com.davidaventimiglia.algs2.week2;
+
 import edu.princeton.cs.algs4.*;
 import java.util.*;
 
@@ -5,7 +7,6 @@ public class WordNet {
     Map<Integer, List<String>> sns;
     Digraph d;
 
-    // constructor takes the name of the two input files
     public WordNet (String synsets, String hypernyms) {
 	if (synsets==null) throw new IllegalArgumentException();
 	if (hypernyms==null) throw new IllegalArgumentException();
@@ -15,21 +16,26 @@ public class WordNet {
     protected Map<Integer, List<String>> parseSynsets (String filename) {
 	Map<Integer, List<String>> sns = new HashMap<>();
 	In in = new In(filename);
-	String line = in.readLine();
-	while (line!=null) {
+	for (String line = in.readLine(); line!=null;) {
 	    String[] fields = line.split(",");
-	    sns.putIfAbsent(Integer.parseInt(fields[0]), new ArrayList<>());
-	    sns.get(fields[0]).addAll(Arrays.asList(fields[1].split(" ")));}
+	    sns
+		.putIfAbsent(Integer.parseInt(fields[0]),
+			     new ArrayList<>());
+	    sns
+		.get(Integer.parseInt(fields[0]))
+		.addAll(Arrays.asList(fields[1].split(" ")));
+	    line = in.readLine();}
 	return sns;}
 
     protected Digraph parseHypernyms (String filename) {
 	In in = new In(filename);
-	String line = in.readLine();
 	Digraph d = new Digraph(sns.keySet().size());
-	while (line!=null) {
+	for (String line = in.readLine(); line!=null;) {
 	    String[] fields = line.split(",");
 	    for (int i = 1; i<fields.length; i++)
-		d.addEdge(Integer.parseInt(fields[i]), Integer.parseInt(fields[0]));}
+		d.addEdge(Integer.parseInt(fields[i]),
+			  Integer.parseInt(fields[0]));
+	    line = in.readLine();}
 	return d;}
 
     // returns all WordNet nouns
@@ -38,12 +44,18 @@ public class WordNet {
 	    @Override
 	    public Iterator<String> iterator () {
 		return new Iterator<String> () {
+		    Iterator<List<String>> sources = sns.values().iterator();
+		    Iterator<String> source;
 		    @Override
 		    public boolean hasNext () {
+			if (source==null && sources.hasNext()) source = sources.next().iterator();
+			if (source!=null && !source.hasNext() && sources.hasNext()) source = sources.next().iterator();
+			if (source!=null && source.hasNext()) return true;
 			return false;}
 		    @Override
 		    public String next () {
-			return "";}};}};}
+			if (source.hasNext()) return source.next();
+			throw new NoSuchElementException();}};}};}
 
     // is the word a WordNet noun?
     public boolean isNoun (String word) {
