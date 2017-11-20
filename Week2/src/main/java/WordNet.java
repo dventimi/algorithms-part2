@@ -5,13 +5,13 @@ import java.util.*;
 
 public class WordNet {
     Map<Integer, String> id2synset = new HashMap<>();
+    Map<Integer, List<String>> sns = new HashMap<>();
     Map<Integer, List<String>> id2nouns = new HashMap<>();
     Map<String, Integer> noun2id = new HashMap<>();
     Map<String, Integer> synset2id = new HashMap<>();
     Digraph d;
     SAP sap;
 
-    // do unit testing of this class
     public static void main (String[] args) {
 	WordNet w = new WordNet(args[0], args[1]);
 	System.out.println(w);
@@ -34,7 +34,7 @@ public class WordNet {
 	if (synsets==null) throw new IllegalArgumentException();
 	if (hypernyms==null) throw new IllegalArgumentException();
 	parseSynsets(synsets.trim());
-	generateNouns();
+	// generateNouns();
 	parseHypernyms(hypernyms.trim());
 	sap = new SAP(d);}
 
@@ -58,8 +58,7 @@ public class WordNet {
 	    sns
 		.get(Integer.parseInt(fields[0]))
 		.addAll(Arrays.asList(fields[1].split(" ")));
-	    line = in.readLine();}
-	return sns;}
+	    line = in.readLine();}}
 
     protected void parseHypernyms (String filename) {
 	In in = new In(filename);
@@ -69,10 +68,8 @@ public class WordNet {
 	    for (int i = 1; i<fields.length; i++)
 		d.addEdge(Integer.parseInt(fields[i]),
 			  Integer.parseInt(fields[0]));
-	    line = in.readLine();}
-	return d;}
+	    line = in.readLine();}}
 
-    // returns all WordNet nouns
     public Iterable<String> nouns () {
 	return new Iterable<String> () {
 	    @Override
@@ -91,7 +88,6 @@ public class WordNet {
 			if (source.hasNext()) return source.next();
 			throw new NoSuchElementException();}};}};}
 
-    // is the word a WordNet noun?
     public boolean isNoun (String word) {
 	if (word==null) throw new IllegalArgumentException();
 	for (String n : nouns()) if (n.equals(word)) return true;
