@@ -1,2 +1,7 @@
 *.zip
 wordnet
+.meghanada
+GPATH
+GRTAGS
+GTAGS
+target
